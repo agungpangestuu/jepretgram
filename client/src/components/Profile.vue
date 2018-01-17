@@ -13,8 +13,8 @@
               <div class="content">
                 <p>
                   <strong>@{{ $route.params.username}}</strong> <a class="btn btn-primary" :href="editProfile" v-if='$route.params.username === profile.username'>Edit Profile</a>
-                   <a class="btn btn-primary" v-if='$route.params.username !== profile.username && status' @click="following()">Follow</a>
-                   <a class="btn btn-primary" v-if='$route.params.username !== profile.username && !status' @click="unfollowing()">Unfollow</a>
+                   <a class="btn btn-primary" v-if='$route.params.username !== profile.username && !userSearch.followers.includes(id.toString())' @click="following()">Follow</a>
+                   <a class="btn btn-primary" v-if='$route.params.username !== profile.username && userSearch.followers.includes(id.toString())' @click="unfollowing()">Unfollow</a>
                   <br>
                 </p>
               </div>
@@ -92,7 +92,8 @@ export default {
       photos: 6,
       profiles: { username: '', fullname: '' },
       editProfile: `/${localStorage.getItem('username')}/editprofile`,
-      status: true
+      status: true,
+      id: ''
     }
   },
   methods: {
@@ -131,8 +132,8 @@ export default {
   created: function () {
     
     this.status = this.getUsername(this.$route.params.username)
-    console.log('ini id profile index of  ',this.userSearch.followers)
-    
+    console.log('ini id profile index of  ')
+    this.id = localStorage.getItem('id')
     // this.getById()
     if (localStorage.getItem('isLogin')) {
       this.profile.username = localStorage.getItem('username')

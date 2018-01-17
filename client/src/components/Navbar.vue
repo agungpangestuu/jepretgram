@@ -19,7 +19,7 @@
 			<li class="nav-item" v-else><a :href="username" class="nav-link">Profile</a></li>
 
      <li class="nav-item active" v-if="isLogin && $route.name == navbar.post"><a :href="username" class="nav-link">Post</a></li>
-      <li class="nav-item" v-else><a :href="username" class="nav-link">Post</a></li>
+      <li class="nav-item" v-else><a :href="post" class="nav-link">Post</a></li>
 				<!-- <a data-toggle="dropdown" class="nav-link dropdown-togglenavbar" href="#">Post <b class="caret"></b></a> -->
 			<!-- </li> -->
 		</ul>
@@ -31,12 +31,10 @@
 		</div>
     <a class="btn btn-primary" @click="dataSearch()">Search</a>
 		<ul class="nav navbar-nav navbar-right ml-auto" v-if="isLogin">
-			<li class="nav-item"><a href="#" class="nav-link notifications"><i class="fa fa-bell-o"></i><span class="badge">1</span></a></li>
-			<li class="nav-item"><a href="#" class="nav-link messages"><i class="fa fa-envelope-o"></i><span class="badge">10</span></a></li>
 			<li class="nav-item dropdown">
 				<a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img :src="profile.avatar" class="avatar" alt="Avatar"> {{profile.fullname}} <b class="caret"></b></a>
 				<ul class="dropdown-menu">
-					<li><a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a></li>
+					<li><a href="username" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a></li>
 					<li><a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a></li>
 					<li><a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a></li>
 					<li class="divider dropdown-divider"></li>

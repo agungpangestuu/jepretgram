@@ -81,10 +81,10 @@ const updateUser = function(req,res){
   }
   Users.findById(id).then(function(data_Users){
     console.log(req.body)
-    data_Users.avatar = req.body.avatar
-    data_Users.fullname = req.body.fullname
-    data_Users.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
-    data_Users.email = req.body.email   
+    data_Users.avatar = req.body.avatar || data_Users.avatar
+    data_Users.fullname = req.body.fullname || data_Users.fullname
+    data_Users.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)) || data_Users.password
+    data_Users.email = req.body.email || data_Users.email  
     data_Users.username = req.body.username || data_Users.username
     let tokenJwt = jwt.sign({
       id : data_User.id,

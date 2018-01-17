@@ -3,7 +3,8 @@ const Photos = require('../models/photoModel')
 
 const findAllPhoto = function (req, res) {
   Photos.find()
-  .populate('author') // only return the Persons name
+  .populate('author')
+  .populate('koment')
   .then(function (data_Photos) {
     console.log('[+] get all photo', data_Photos)
     res.status(200).send(data_Photos)
@@ -73,11 +74,49 @@ const destroyPhoto = function (req, res) {
   })
 }
 
+const likePost = function (req, res) {
+  let id = req.params.id.toString()
+  Photos.findById({_id: id})
+    .then(data => {
+      let status = false 
+      data.like.forEach(dt => {
+        console.log('lagi di loop', id)
+        console.log('lagi di loop', typeof id)        
+        console.log('lagi di loop', dt)
+        console.log('lagi di loop', typeof dt)                
+        if (dt == req.body.decoded.id) {
+          console.log('lagi di if', dt)
+          status = true
+          Photos.findByIdAndUpdate(id, {$pull: {like: req.body.decoded.id}})
+          .then(dt => {
+            res.status(200).json({
+              data: dt
+            })
+          })
+          .catch(err => console.log(err))
+        }
+      })
+      // if (!status) {
+      //   Photos.findByIdAndUpdate(id, {$push: {like: req.body.decoded.id}})
+      //     .then(dt => {
+      //       res.status(200).json({
+      //         data: dt
+      //       })
+      //     })
+      // }
+    })
+    .catch(err => console.log(err))
+}
+
+// const findAllFollow = function (req, res) {
+//   Photos
+// }
 
 module.exports = {
   findAllPhoto,
   photoFindById,
   photoCreate,
   updatePhoto,
-  destroyPhoto
+  destroyPhoto,
+  likePost
 }

@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row" >
       <Modal></Modal>
-      <div class="col-md-4"v-for="p in photos.data" :key="p">
+      <div class="col-md-4" v-for="p in photos.data" :key="p._id">
         <Card :photo="p"></Card>
       </div>
     </div>

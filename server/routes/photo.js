@@ -13,6 +13,8 @@ router.get('/', Photo.findAllPhoto)
 router.get('/:idUser', Photo.photoFindById)
 router.put('/:id', Photo.updatePhoto)
 router.delete('/:id', Photo.destroyPhoto)
+router.put('/like/:id', login, Photo.likePost)
+// router.get('/all-photo-follow', login, Photo.findAllFollow)
 
 // multer 
 router.post('/', function (req, res, next) {

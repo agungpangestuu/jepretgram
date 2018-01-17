@@ -118,7 +118,7 @@ const actions = {
       }
     })
   },
-  posting({commit}, payload) {
+  posting ({commit}, payload) {
     state.uploads.token = localStorage.getItem('token')
     http.post(`api/photos/${payload}`, state.uploads, {
       headers: {
@@ -132,14 +132,13 @@ const actions = {
         icon: "success",
         button: "Aww yiss!",
       })
-      window.location = '/profile/payload'
     })
   },
-  decoded() {
+  decoded () {
     let decode = Jwt(localStorage.getItem('token'))
     state.profile = decode
   },
-  follow(){
+  follow () {
     return new Promise((resolve, reject) => {
       http.put(`/api/users/follow/${state.profile.id}`, { token : localStorage.getItem('token'), userFollow: state.userSearch._id})
       .then( ({data}) => {
@@ -150,7 +149,7 @@ const actions = {
     })
     
   },
-  unfollow(){
+  unfollow () {
     return new Promise((resolve,reject) => {
       http.put(`/api/users/unfollow/${state.profile.id}`, { token : localStorage.getItem('token'), userFollow: state.userSearch._id})
       .then(({data}) => {
@@ -159,13 +158,32 @@ const actions = {
       .catch(err => reject(err))
     })
   },
-  urlAvatar(payload) {
+  urlAvatar (payload) {
     state.urlAvatar = payload
     console.log('ini payload', state.urlAvatar)
     // http.post('/api/photos', state.urlAvatar)
     // .then(({data}) => {
     //   return data
     // })
+  },
+  likeThis ({commit}, data) {
+    console.log(data._id)
+    http.put(`/api/photos/like/${data._id}`, {token: localStorage.getItem('token')} )
+      .then(data => {
+        state.photos.data.forEach(dt => {
+          if (dt._id === data.data._id ) {
+            console.log()
+          }
+        })
+      })
+      .catch(() => alert('you must login'))
+  },
+  postComent ({commit}, data) {
+    http.post(`/api/koment`, {token: localStorage.getItem('token'), koment: data.koment, photoId: data.photoId})
+    .then(result => {
+      console.log(result)
+    })
+    .catch(err => console.log(err))
   }
 }
 

@@ -133,6 +133,7 @@
       postBtn() {
         this.uploads.url = this.url
         this.posting(this.$route.params.username)
+        this.$router.replace('/profile/this.$route.param.username')
       }
     },
     mounted() {

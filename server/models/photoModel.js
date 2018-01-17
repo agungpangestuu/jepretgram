@@ -25,8 +25,11 @@ const photoSchema = new Schema({
   },
   like : [{
     type : Schema.Types.ObjectId,
-    ref : 'User',
-    default : []
+    ref : 'User'
+  }],
+  koment : [{
+    type : Schema.Types.ObjectId,
+    ref : 'Koment'
   }]
 })
 

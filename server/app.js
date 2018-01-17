@@ -23,5 +23,6 @@ mongoose.connect(process.env.URL, { useMongoClient: true });
 app.get('/', (req, res) => res.json({message: "Welcome to jepretgram API!"}))
 app.use('/api/users', require('./routes/user'))
 app.use('/api/photos', require('./routes/photo'))
+app.use('/api/koment', require('./routes/comment'))
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
