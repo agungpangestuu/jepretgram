@@ -49,30 +49,22 @@ const userFindById = function (req,res) {
   })
 }
 const userCreate = function (req,res) {
-  let saltRound = 10
-  bcrypt.hash(req.body.password, saltRound).then(function(hash){
-    let newUser = Users({
-      fullname : req.body.fullname,
-      username : req.body.username,
-      password : hash,
-      email : req.body.email,
-      admin : false
-    })
-    console.log('new user >>', newUser)
-    newUser.save().then(function(){
-      res.status(201).send('[+] 1 User Created from register')
-    }).catch( function (err) {
-      console.log('[-] error User Create from register')
-      res.send({
-        msg: errmsg(err),
-        err: err
-      }).status(200)
-    })
-  }).catch(function(err){
-    if(err){
-      console.log('[-] password crypt')
-      res.status(500).send(err)
-    }
+  let newUser = new Users({
+    fullname : req.body.fullname,
+    username : req.body.username,
+    password : bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
+    email : req.body.email,
+    admin : false
+  })
+  console.log('new user >>', newUser)
+  newUser.save().then(function(){
+    res.status(201).send('[+] 1 User Created from register')
+  }).catch( function (err) {
+    console.log('[-] error User Create from register')
+    res.send({
+      msg: errmsg(err),
+      err: err
+    }).status(200)
   })
 }
 const updateUser = function(req,res){
@@ -128,7 +120,7 @@ const SignIn = function (req, res) {
     username: req.body.username
   }).then(function(data_User){
     if(data_User){
-      bcrypt.compare(req.body.password, data_User.password).then(function(result){
+      bcrypt.compare(req.body.password, data_User.password).then(function(err,result){
         if(result){
           console.log('data user signin>>', data_User.id)
           jwt.sign({
@@ -184,7 +176,9 @@ const fbLogin = (req,res) => {
               fb_id:response.id,
               email:response.email,
               name:response.name,
-              profile:response.picture.data.url
+              username: response.name,
+              password: 'password',
+              avatar:response.picture.data.url
           })
           .save((err,stats)=>{
             const loginToken = jwt.sign({id:stats._id},jwtSecret);
