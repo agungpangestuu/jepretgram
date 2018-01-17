@@ -79,11 +79,7 @@ const likePost = function (req, res) {
   Photos.findById({_id: id})
     .then(data => {
       let status = false 
-      data.like.forEach(dt => {
-        console.log('lagi di loop', id)
-        console.log('lagi di loop', typeof id)        
-        console.log('lagi di loop', dt)
-        console.log('lagi di loop', typeof dt)                
+      data.like.forEach(dt => {            
         if (dt == req.body.decoded.id) {
           console.log('lagi di if', dt)
           status = true
@@ -96,14 +92,14 @@ const likePost = function (req, res) {
           .catch(err => console.log(err))
         }
       })
-      // if (!status) {
-      //   Photos.findByIdAndUpdate(id, {$push: {like: req.body.decoded.id}})
-      //     .then(dt => {
-      //       res.status(200).json({
-      //         data: dt
-      //       })
-      //     })
-      // }
+      if (!status) {
+        Photos.findByIdAndUpdate(id, {$push: {like: req.body.decoded.id}})
+          .then(dt => {
+            res.status(200).json({
+              data: dt
+            })
+          })
+      }
     })
     .catch(err => console.log(err))
 }
