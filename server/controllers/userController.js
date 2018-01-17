@@ -120,7 +120,7 @@ const SignIn = function (req, res) {
     username: req.body.username
   }).then(function(data_User){
     if(data_User){
-      bcrypt.compare(req.body.password, data_User.password).then(function(err,result){
+      bcrypt.compare(req.body.password, data_User.password).then(function(result){
         if(result){
           console.log('data user signin>>', data_User.id)
           jwt.sign({

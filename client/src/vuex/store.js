@@ -7,7 +7,7 @@ import swal from 'sweetalert'
 import Jwt from 'jwt-decode'
 
 const http = axios.create({
-  baseURL: 'http://localhost:3000/'
+  baseURL: 'http://35.197.154.137:8080/'
 })
 
 Vue.use(Vuex)
@@ -90,7 +90,7 @@ const actions = {
     // formDt.append('photos', state.file)
     console.log('form data ====== :', formDt.get('photos'))
     // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-    axios.post('http://localhost:3000/api/photos', formDt)
+    axios.post('http://35.197.154.137:8080/api/photos', formDt)
     .then(({data}) => {
       console.log('dataVision :', data)
       // commit('setData', data.guest.nama)
@@ -103,7 +103,7 @@ const actions = {
     http.get(`api/users/${payload}`)
     .then( function({data}) {
       console.log('data', data)
-      if (data.dataUser === null){ window.location = 'http://localhost:8080/notfound'}
+      if (data.dataUser === null){ window.location = 'http://jepregram.pangestu.tech/notfound'}
       else {
         commit('setDataUser', data.dataUser)
         http.get(`api/photos/${state.userSearch._id}`)
@@ -158,7 +158,7 @@ const actions = {
       .catch(err => reject(err))
     })
   },
-  urlAvatar (payload) {
+  urlAvatar ({commit}, payload) {
     state.urlAvatar = payload
     console.log('ini payload', state.urlAvatar)
     // http.post('/api/photos', state.urlAvatar)

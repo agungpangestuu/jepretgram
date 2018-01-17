@@ -91,7 +91,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-
+import axios from 'axios'
 export default {
   name: 'Modal',
   data () {
@@ -116,29 +116,29 @@ export default {
     ]),
     fbLogin: function () {
       FB.login(function(response){
-        console.log(response)
-        if (response.status === 'connected') {
-          localStorage.setItem('isLogin', true)
-          window.location.reload()
-        }
-        // axios.post('http://localhost:3000/signin',response)
-        // .then((result)=>{
-        //   console.log(result.data);
-        //   if(!result.data.status){
-        //     console.log("Something went wrong!");
-        //     setTimeout(function(){
-        //       window.location.reload();
-        //     },5000);
-        //   }
-        //   else {
-        //     localStorage.setItem('id', result.data.id)
-        //     localStorage.setItem("token",result.data.token);
-        //     localStorage.setItem('picture', result.data.picture)
-        //     localStorage.setItem('name', result.data.name)
-        //     window.location = 'http://localhost:8080'
-        //   }
-        // })
-      }, {scope: 'public_profile,email'})
+        // console.log(response)
+        // if (response.status === 'connected') {
+        //   localStorage.setItem('isLogin', true)
+        //   window.location.reload()
+        // }
+        axios.post('http://35.197.154.137:8080/fb',response)
+        .then((result)=>{
+          console.log(result.data);
+          if(!result.data.status){
+            console.log("Something went wrong!");
+            setTimeout(function(){
+              window.location.reload();
+            },5000);
+          }
+          else {
+            localStorage.setItem('id', result.data.id)
+            localStorage.setItem("token",result.data.token);
+            localStorage.setItem('avatar', result.data.picture)
+            localStorage.setItem('username', result.data.name)
+            window.location = 'http://jepretgram.pangestu.tech'
+          }
+        })
+      }, {scope: 'public_profile,email,name'})
     },
     onFileChange (e) {
       var files = e.target.files || e.dataTransfer.files
